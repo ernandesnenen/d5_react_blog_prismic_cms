@@ -3,7 +3,7 @@ import Prismic from '@prismicio/client';
 import Link from 'next/link';
 import Head from 'next/head';
 import { FiCalendar, FiUser } from 'react-icons/fi';
-import { format } from 'date-fns';
+import { format, formatISO } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 
 import { useState } from 'react';
@@ -42,13 +42,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
     const newPosts = postsResponse.results.map(post => {
       return {
         uid: post.uid,
-        first_publication_date: format(
-          new Date(post.first_publication_date),
-          'dd MMM yyyy',
-          {
-            locale: ptBR,
-          }
-        ),
+        first_publication_date: post.first_publication_date,
         data: {
           title: post.data.title,
           subtitle: post.data.subtitle,
@@ -73,9 +67,13 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
                     <strong>{post.data.title}</strong>
                     <p>{post.data.subtitle}</p>
                     <div className={styles.info}>
+                      <FiCalendar className={styles.calendarIcone} />
                       <time>
-                        <FiCalendar className={styles.calendarIcone} />
-                        {post.first_publication_date}
+                        {format(
+                          new Date(post.first_publication_date),
+                          'dd MMM yyyy',
+                          { locale: ptBR }
+                        )}
                       </time>
                       <span>
                         <FiUser className={styles.userIcone} />
@@ -114,13 +112,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const posts = postsResponse.results.map(post => {
     return {
       uid: post.uid,
-      first_publication_date: format(
-        new Date(post.first_publication_date),
-        'dd MMM yyyy',
-        {
-          locale: ptBR,
-        }
-      ),
+      first_publication_date: post.first_publication_date,
       data: {
         title: post.data.title,
         subtitle: post.data.subtitle,
