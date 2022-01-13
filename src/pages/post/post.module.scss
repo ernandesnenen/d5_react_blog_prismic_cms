@@ -1,1 +1,25 @@
-// TODO
+.mainContent{
+  img{
+    max-height: 400px;
+    width:  100%;
+  }
+}
+.infoArticle{
+  margin: 3.5rem 0;
+  h1{
+    font-size: 3rem;
+    font-weight: 700;
+  }
+}
+
+.contentArticle{
+  div{
+    margin: 2rem 0;
+    p{
+
+      display: block;
+      margin: 1rem 0;
+    }
+
+  }
+}

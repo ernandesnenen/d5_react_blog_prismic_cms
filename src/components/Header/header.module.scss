@@ -3,6 +3,7 @@
   height: 5rem;
   background-color: var(--background);
 
+
   }
   .headerContent{
   display: flex;
@@ -11,6 +12,7 @@
    height: 5rem;
    margin:  0 auto;;
    padding: 0 2rem;
+   max-width: 720px ;
 
    a{
        display: inline-block;

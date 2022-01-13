@@ -3,7 +3,7 @@ import Prismic from '@prismicio/client';
 import Link from 'next/link';
 import Head from 'next/head';
 import { FiCalendar, FiUser } from 'react-icons/fi';
-import { format, formatISO } from 'date-fns';
+import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 
 import { useState } from 'react';
@@ -66,8 +66,8 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
                   <a>
                     <strong>{post.data.title}</strong>
                     <p>{post.data.subtitle}</p>
-                    <div className={styles.info}>
-                      <FiCalendar className={styles.calendarIcone} />
+                    <div className={commonStyles.info}>
+                      <FiCalendar className={commonStyles.calendarIcone} />
                       <time>
                         {format(
                           new Date(post.first_publication_date),
@@ -76,7 +76,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
                         )}
                       </time>
                       <span>
-                        <FiUser className={styles.userIcone} />
+                        <FiUser className={commonStyles.userIcone} />
                         {post.data.author}
                       </span>
                     </div>
@@ -125,8 +125,6 @@ export const getStaticProps: GetStaticProps = async () => {
     next_page: postsResponse.next_page,
     results: posts,
   };
-
-  console.log(postsPagination.next_page);
 
   return {
     props: {
