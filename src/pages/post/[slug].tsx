@@ -47,8 +47,8 @@ export default function Post({ post }: PostProps): JSX.Element {
     });
 
     const texto = text.toString().split(' ');
-    const timeExpect = Math.round(texto.length / 200);
-    return timeExpect;
+    const timeExpect = (texto.length / 200).toFixed(1);
+    return Number(timeExpect);
   }
 
   const router = useRouter();
@@ -68,7 +68,7 @@ export default function Post({ post }: PostProps): JSX.Element {
   return (
     <>
       <Head>
-        <title> Aguarde... | spacetraveling</title>
+        <title> Post | spacetraveling</title>
       </Head>
       <main className={styles.mainContent}>
         <img src={post.data.banner.url} alt="banner" />
@@ -86,7 +86,7 @@ export default function Post({ post }: PostProps): JSX.Element {
                 <FiUser className={commonStyles.userIcone} />
                 {post.data.author}
               </span>
-              <time>{`${readTime()} mm`}</time>
+              <time>{`${readTime()} min`}</time>
             </div>
           </div>
           <div className={styles.contentArticle}>
