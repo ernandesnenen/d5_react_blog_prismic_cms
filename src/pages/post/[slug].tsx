@@ -47,7 +47,10 @@ export default function Post({ post }: PostProps): JSX.Element {
     });
 
     const texto = text.toString().split(' ');
-    const timeExpect = (texto.length / 200).toFixed(1);
+    const timeExpect =
+      texto.length % 200 > 0
+        ? Math.trunc(texto.length / 200) + 1
+        : texto.length / 200;
     return Number(timeExpect);
   }
 
