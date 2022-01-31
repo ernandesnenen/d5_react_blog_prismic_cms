@@ -7,7 +7,9 @@ import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 
 import { useState } from 'react';
-import { getPrismicClient } from '../services/prismic';
+// import { getPrismicClient } from '../services/prismic';
+import { Client } from '../utils/prismicHelpers.js';
+import { ExitPreviewButton } from '../components/ExitPreviewButton';
 
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
@@ -29,9 +31,13 @@ interface PostPagination {
 
 interface HomeProps {
   postsPagination: PostPagination;
+  preview: boolean;
 }
 
-export default function Home({ postsPagination }: HomeProps): JSX.Element {
+export default function Home({
+  postsPagination,
+  preview,
+}: HomeProps): JSX.Element {
   const [posts, setPost] = useState(postsPagination.results);
   const [nextsPage, setNextPage] = useState(postsPagination.next_page);
 
@@ -92,20 +98,28 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
           ) : (
             ''
           )}
+          {preview && <ExitPreviewButton className={styles.exitPreview} />}
         </div>
       </main>
     </>
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  const prismic = getPrismicClient();
+export const getStaticProps: GetStaticProps = async ({
+  preview = false,
+  previewData = null,
+}) => {
+  console.log(previewData);
+  // const prismic = getPrismicClient();
+  const prismic = Client();
 
   const postsResponse = await prismic.query(
     [Prismic.predicates.at('document.type', 'posts')],
     {
       fetch: ['posts.title', 'posts.subtitle', 'posts.author', 'next_page'],
       pageSize: 2,
+      // isso foi tirado do exemplo
+      ref: previewData?.ref ?? null,
     }
   );
 
@@ -129,7 +143,9 @@ export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       postsPagination,
+      // isso foi tirado do exemplo
+      preview,
     },
-    revalidate: 60 * 60 * 12,
+    revalidate: 60 * 12,
   };
 };
